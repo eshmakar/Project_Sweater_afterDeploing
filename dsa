@@ -1,0 +1,16 @@
+local   all             all                                     trust
+host    all             all             127.0.0.1/32            trust
+host    all             all             127.0.0.1       255.255.255.255     trust
+host    all             all             ::1/128                 trust
+host    all             all             localhost               trust
+host    postgres        all             192.168.93.0/24         ident
+host    postgres        all             192.168.12.10/32        md5
+host    all             all             .example.com            md5
+host    all             all             192.168.54.1/32         reject
+host    all             all             0.0.0.0/0               krb5
+host    all             all             192.168.0.0/16          ident map=omicron
+local   sameuser        all                                     md5
+local   all             @admins                                 md5
+local   all             +support                                md5
+local   all             @admins,+support                        md5
+local   db1,db2,@demodbs  all                                   md5

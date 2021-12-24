@@ -1,0 +1,35 @@
+listen_addresses = '*'		# what IP address(es) to listen on;
+					# comma-separated list of addresses;
+					# defaults to 'localhost'; use '*' for all
+					# (change requires restart)
+port = 5432				# (change requires restart)
+max_connections = 100			# (change requires restart)
+shared_buffers = 128MB			# min 128kB
+dynamic_shared_memory_type = posix	# the default is the first option
+					# supported by the operating system:
+					#   posix
+					#   sysv
+					#   windows
+					#   mmap
+					# (change requires restart)
+
+
+					postgresql-10.service: main process exited, code=exited, status=1/FAILURE
+ database system is shut down
+ Hint: Some lines were ellipsized, use -l to show in full.
+
+  Found PM-Timer Bug on the chipset. Due to workarounds for a bug,
+                                   * this clock source is slow. Consider trying other clock sources
+systemctl status postgresql.service
+
+
+service entered failed state.
+
+sudo su - postgres
+
+
+sudo yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+sudo yum install -y postgresql12-server
+sudo /usr/pgsql-12/bin/postgresql-12-setup initdb
+sudo systemctl enable postgresql-12
+sudo systemctl start postgresql-12
