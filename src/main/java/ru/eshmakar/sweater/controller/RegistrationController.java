@@ -44,28 +44,21 @@ public class RegistrationController {
             BindingResult bindingResult,
             Model model
     ) {
+
         String url = String.format(CAPTCHA_URL, secret, captchaResponce);
         CaptchaResponseDto response = restTemplate.postForObject(url, Collections.emptyList(), CaptchaResponseDto.class);
 
-        if (!response.isSuccess()) {
-            model.addAttribute("captchaError", "Fill captcha");
-        }
+        if (!response.isSuccess()) model.addAttribute("captchaError", "Fill captcha");
 
-        boolean isConfirmEmpty = StringUtils.isEmpty(passwordConfirm);
+        boolean isConfirmEmpty = StringUtils.hasText(passwordConfirm);
 
-        if (isConfirmEmpty) {
-            model.addAttribute("password2Error", "Password confirmation cannot be empty");
-        }
+        if (isConfirmEmpty) model.addAttribute("password2Error", "Password confirmation cannot be empty");
 
-        if (user.getPassword() != null && !user.getPassword().equals(passwordConfirm)) {
-            model.addAttribute("passwordError", "Passwords are different!");
-        }
+        if (user.getPassword() != null && !user.getPassword().equals(passwordConfirm)) {model.addAttribute("passwordError", "Passwords are different!");}
 
         if (isConfirmEmpty || bindingResult.hasErrors() || !response.isSuccess()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-
             model.mergeAttributes(errors);
-
             return "registration";
         }
 
